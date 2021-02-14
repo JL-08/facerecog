@@ -1,0 +1,7 @@
+.Tilt {
+  background: radial-gradient(
+    circle,
+    rgba(227, 249, 46, 1) 0%,
+    rgba(0, 255, 170, 1) 100%
+  );
+}
