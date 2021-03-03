@@ -9,7 +9,6 @@ import Signin from './components/Signin/Signin';
 import Register from './components/Register/Register';
 import Particles from 'react-particles-js';
 
-//TODO: add feature to detect multiple faces
 //TODO: add more validations both in front and backend
 
 const particlesOption = {
@@ -31,6 +30,7 @@ const particlesOption = {
   },
 };
 
+// variable for resetting
 const initialState = {
   input: '',
   imageURL: '',
@@ -52,7 +52,7 @@ class App extends Component {
     this.state = {
       input: '',
       imageURL: '',
-      box: {},
+      box: [],
       route: '',
       isSignedIn: false,
       user: {
@@ -78,23 +78,30 @@ class App extends Component {
   };
 
   calculateFaceLocation = (data) => {
-    const clarifaiFace =
-      data.outputs[0].data.regions[0].region_info.bounding_box;
+    const clarifaiFace = data.outputs[0].data.regions;
+
     const image = document.getElementById('inputimage');
     const width = Number(image.width);
     const height = Number(image.height);
-    return {
-      leftCol: clarifaiFace.left_col * width,
-      topRow: clarifaiFace.top_row * height,
-      // prettier-ignore
-      rightCol: width - (clarifaiFace.right_col * width),
-      // prettier-ignore
-      bottomRow: height - (clarifaiFace.bottom_row * height),
-    };
+
+    const imageBoxDate = clarifaiFace.map((el) => {
+      let box = el.region_info.bounding_box;
+
+      return {
+        leftCol: box.left_col * width,
+        topRow: box.top_row * height,
+        // prettier-ignore
+        rightCol: width - (box.right_col * width),
+        // prettier-ignore
+        bottomRow: height - (box.bottom_row * height),
+      };
+    });
+
+    return imageBoxDate;
   };
 
   displayFaceBox = (box) => {
-    this.setState({ box: box });
+    this.setState({ box: [...box] });
   };
 
   onInputChange = (event) => {
@@ -168,7 +175,6 @@ class App extends Component {
                 onBtnClick={this.onBtnClick}
               />
             </div>
-
             <FaceRecognition box={box} imageURL={imageURL} />
           </div>
         ) : route === 'register' ? (

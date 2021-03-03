@@ -1,26 +1,21 @@
-import React from "react";
-import "./FaceRecognition.css";
+import React from 'react';
+import './FaceRecognition.css';
+import Box from './Box/Box';
 
 const FaceRecognition = ({ imageURL, box }) => {
   return (
-    <div className="flex justify-center">
-      <div className="relative">
+    <div className='flex justify-center'>
+      <div className='relative'>
         <img
-          id="inputimage"
+          id='inputimage'
           src={imageURL}
-          alt=""
-          width="500px"
-          height="auto"
+          alt=''
+          width='500px'
+          height='auto'
         />
-        <div
-          className="bounding-box"
-          style={{
-            top: box.topRow,
-            right: box.rightCol,
-            bottom: box.bottomRow,
-            left: box.leftCol,
-          }}
-        ></div>
+        {box.map((data, i) => (
+          <Box key={i} data={data} />
+        ))}
       </div>
     </div>
   );
