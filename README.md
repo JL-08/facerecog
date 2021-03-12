@@ -1,3 +1,5 @@
+Server files are available [here](https://github.com/JL-08/facerecog-server)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
